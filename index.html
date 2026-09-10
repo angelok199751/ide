@@ -1,16 +1,24 @@
 <!DOCTYPE html>
+
 <html lang="ru" data-theme="dark">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>pad — html / css / js</title>
+
 <style>
+
   :root[data-theme="dark"]{
     --bg:#14161b; --panel:#1a1d24; --panel-alt:#20242d; --border:#2a2f3a;
     --text:#d8dce3; --text-dim:#7d8494;
     --amber:#f2b544; --blue:#6fb1fc; --green:#7fd99a;
     --btn-bg:#20242d; --btn-hover:#282d38;
   }
+
   :root[data-theme="light"]{
     --bg:#f3f4f6; --panel:#ffffff; --panel-alt:#eef0f3; --border:#dbdfe4;
     --text:#1c1f26; --text-dim:#6b7280;
@@ -18,203 +26,506 @@
     --btn-bg:#ffffff; --btn-hover:#e9ebef;
   }
 
-  *{box-sizing:border-box;}
-  html,body{height:100%;margin:0;}
+  *{
+    box-sizing:border-box;
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+  }
+
   body{
-    background:var(--bg); color:var(--text);
+    background:var(--bg);
+    color:var(--text);
     font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
-    display:flex; flex-direction:column;
+    display:flex;
+    flex-direction:column;
     -webkit-font-smoothing:antialiased;
   }
 
   header{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:10px 16px; border-bottom:1px solid var(--border);
-    background:var(--panel); flex:0 0 auto; gap:12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:10px 16px;
+    border-bottom:1px solid var(--border);
+    background:var(--panel);
+    flex:0 0 auto;
+    gap:12px;
   }
-  .brand{display:flex; align-items:center; gap:8px; font-size:14px; color:var(--text-dim);}
-  .brand b{color:var(--text); font-weight:500;}
-  .dot{width:7px; height:7px; border-radius:50%; background:var(--amber);}
 
-  .controls{display:flex; align-items:center; gap:8px;}
-  button, .theme-toggle{
-    font-family:inherit; font-size:12.5px; color:var(--text);
-    background:var(--btn-bg); border:1px solid var(--border); border-radius:6px;
-    padding:6px 12px; cursor:pointer; transition:background .12s ease;
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:14px;
+    color:var(--text-dim);
   }
-  button:hover, .theme-toggle:hover{background:var(--btn-hover);}
-  button:active{transform:scale(.97);}
-  #run-btn{color:var(--amber); border-color:var(--amber);}
+
+  .brand b{
+    color:var(--text);
+    font-weight:500;
+  }
+
+  .dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--amber);
+  }
+
+  .controls{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+
+  button, .theme-toggle{
+    font-family:inherit;
+    font-size:12.5px;
+    color:var(--text);
+    background:var(--btn-bg);
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:6px 12px;
+    cursor:pointer;
+    transition:background .12s ease;
+  }
+
+  button:hover, .theme-toggle:hover{
+    background:var(--btn-hover);
+  }
+
+  button:active{
+    transform:scale(.97);
+  }
+
+  #run-btn{
+    color:var(--amber);
+    border-color:var(--amber);
+  }
 
   main{
-    flex:1 1 auto; display:flex; min-height:0; min-width:0;
+    flex:1 1 auto;
+    display:flex;
+    min-height:0;
+    min-width:0;
   }
+
   .editors{
-    display:grid; grid-template-rows:1fr 1fr 1fr; min-height:0; min-width:0;
+    display:grid;
+    grid-template-rows:1fr 1fr 1fr;
+    min-height:0;
+    min-width:0;
     flex:0 0 var(--split, 50%);
   }
+
   .splitter{
-    flex:0 0 6px; cursor:col-resize; background:var(--panel);
-    border-left:1px solid var(--border); border-right:1px solid var(--border);
+    flex:0 0 6px;
+    cursor:col-resize;
+    background:var(--panel);
+    border-left:1px solid var(--border);
+    border-right:1px solid var(--border);
     position:relative;
   }
-  .splitter:hover, .splitter.dragging{background:var(--btn-hover);}
+
+  .splitter:hover,
+  .splitter.dragging{
+    background:var(--btn-hover);
+  }
+
   .splitter::after{
-    content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
-    width:2px; height:20px; border-radius:1px; background:var(--border);
+    content:"";
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:2px;
+    height:20px;
+    border-radius:1px;
+    background:var(--border);
   }
-  .pane{display:flex; flex-direction:column; min-height:0; border-bottom:1px solid var(--border);}
-  .pane:last-child{border-bottom:none;}
+
+  .pane{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    border-bottom:1px solid var(--border);
+  }
+
+  .pane:last-child{
+    border-bottom:none;
+  }
+
   .pane-label{
-    display:flex; align-items:center; gap:7px;
-    font-size:11.5px; color:var(--text-dim); padding:6px 12px;
-    background:var(--panel); flex:0 0 auto; border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    gap:7px;
+    font-size:11.5px;
+    color:var(--text-dim);
+    padding:6px 12px;
+    background:var(--panel);
+    flex:0 0 auto;
+    border-bottom:1px solid var(--border);
   }
-  .pane-label .dot{width:6px; height:6px;}
+
+  .pane-label .dot{
+    width:6px;
+    height:6px;
+  }
+
   textarea{
-    flex:1 1 auto; resize:none; border:none; outline:none;
-    background:var(--panel); color:var(--text);
-    font-family:inherit; font-size:13px; line-height:1.5;
-    padding:10px 12px; tab-size:2;
+    flex:1 1 auto;
+    resize:none;
+    border:none;
+    outline:none;
+    background:var(--panel);
+    color:var(--text);
+    font-family:inherit;
+    font-size:13px;
+    line-height:1.5;
+    padding:10px 12px;
+    tab-size:2;
   }
-  .output-pane{display:flex; flex-direction:column; min-height:0; min-width:0; flex:1 1 auto;}
-  iframe{flex:1 1 auto; width:100%; border:none; background:#fff;}
+
+  .output-pane{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    min-width:0;
+    flex:1 1 auto;
+  }
+
+  iframe{
+    flex:1 1 auto;
+    width:100%;
+    border:none;
+    background:#fff;
+  }
 
   @media (max-width:860px){
-    main{flex-direction:column;}
-    .editors{flex-basis:auto !important; grid-template-rows:none;}
-    .splitter{display:none;}
-    .pane textarea{height:130px; flex:none;}
-    .output-pane{height:340px;}
+
+    main{
+      flex-direction:column;
+    }
+
+    .editors{
+      flex-basis:auto !important;
+      grid-template-rows:none;
+    }
+
+    .splitter{
+      display:none;
+    }
+
+    .pane textarea{
+      height:130px;
+      flex:none;
+    }
+
+    .output-pane{
+      height:340px;
+    }
+
   }
+
 </style>
+
 </head>
+
 <body>
 
 <header>
-  <div class="brand"><span class="dot"></span><b>pad</b><span>html · css · js</span></div>
-  <div class="controls">
-    <button id="run-btn" title="Обновить вывод">run</button>
-    <button class="theme-toggle" id="theme-toggle" title="Сменить тему">dark</button>
+
+  <div class="brand">
+    <span class="dot"></span>
+    <b>pad</b>
+    <span>html · css · js</span>
   </div>
+
+  <div class="controls">
+
+    <button id="run-btn" title="Обновить вывод">run</button>
+
+    <button class="theme-toggle" id="theme-toggle" title="Сменить тему">
+      dark
+    </button>
+
+  </div>
+
 </header>
 
 <main>
+
   <div class="editors">
+
     <div class="pane">
-      <div class="pane-label"><span class="dot" style="background:var(--amber)"></span>html</div>
-      <textarea id="html-input" spellcheck="false">&lt;div class="box"&gt;
-  &lt;h1&gt;hello&lt;/h1&gt;
-  &lt;p&gt;paste your iframe embed here too&lt;/p&gt;
-&lt;/div&gt;</textarea>
+
+      <div class="pane-label">
+        <span class="dot" style="background:var(--amber)"></span>
+        html
+      </div>
+
+      <textarea id="html-input" spellcheck="false"><div class="box">
+
+  <h1>hello</h1>
+
+  <p>paste your iframe embed here too</p>
+
+</div></textarea>
+
     </div>
+
     <div class="pane">
-      <div class="pane-label"><span class="dot" style="background:var(--blue)"></span>css</div>
+
+      <div class="pane-label">
+        <span class="dot" style="background:var(--blue)"></span>
+        css
+      </div>
+
       <textarea id="css-input" spellcheck="false">body{ font-family: sans-serif; }
+
 .box{ padding: 24px; }
+
 h1{ color: #6fb1fc; }</textarea>
+
     </div>
+
     <div class="pane">
-      <div class="pane-label"><span class="dot" style="background:var(--green)"></span>js</div>
+
+      <div class="pane-label">
+        <span class="dot" style="background:var(--green)"></span>
+        js
+      </div>
+
       <textarea id="js-input" spellcheck="false">console.log('ready');</textarea>
+
     </div>
+
   </div>
 
-  <div class="splitter" id="splitter" title="Потянуть, чтобы изменить ширину"></div>
+  <div
+    class="splitter"
+    id="splitter"
+    title="Потянуть, чтобы изменить ширину">
+  </div>
 
   <div class="output-pane">
-    <div class="pane-label"><span class="dot" style="background:var(--text-dim)"></span>output</div>
-    <iframe id="output" title="live preview"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-      allowfullscreen></iframe>
+
+    <div class="pane-label">
+      <span class="dot" style="background:var(--text-dim)"></span>
+      output
+    </div>
+
+    <!--
+      Ограничиваем разрешения встроенного содержимого.
+
+      Разрешено:
+      - autoplay
+      - encrypted-media
+      - fullscreen
+      - picture-in-picture
+
+      Запрещено:
+      - camera
+      - microphone
+      - local-network
+      - loopback-network
+    -->
+
+    <iframe
+      id="output"
+      title="live preview"
+      allow="autoplay; encrypted-media; fullscreen; picture-in-picture; camera 'none'; microphone 'none'; local-network 'none'; loopback-network 'none'"
+      allowfullscreen>
+    </iframe>
+
   </div>
+
 </main>
 
 <script>
+
   const htmlInput = document.getElementById('html-input');
   const cssInput  = document.getElementById('css-input');
   const jsInput   = document.getElementById('js-input');
-  const output    = document.getElementById('output');
-  const runBtn    = document.getElementById('run-btn');
-  const themeBtn  = document.getElementById('theme-toggle');
 
-  const openTag  = '<' + 'scr' + 'ipt>';
+  const output = document.getElementById('output');
+
+  const runBtn = document.getElementById('run-btn');
+  const themeBtn = document.getElementById('theme-toggle');
+
+  const openTag = '<' + 'scr' + 'ipt>';
   const closeTag = '<' + '/scr' + 'ipt>';
 
   function render(){
-    const doc = '<style>body{margin:0;padding:12px;font-family:sans-serif;}'
-      + cssInput.value + '</style>'
+
+    const doc =
+      '<style>body{margin:0;padding:12px;font-family:sans-serif;}'
+      + cssInput.value
+      + '</style>'
       + htmlInput.value
-      + openTag + jsInput.value + closeTag;
+      + openTag
+      + jsInput.value
+      + closeTag;
+
     output.srcdoc = doc;
+
   }
 
   let t;
+
   function debouncedRender(){
+
     clearTimeout(t);
+
     t = setTimeout(render, 350);
+
   }
 
-  [htmlInput, cssInput, jsInput].forEach(el => el.addEventListener('input', debouncedRender));
+  [htmlInput, cssInput, jsInput].forEach(el => {
+
+    el.addEventListener('input', debouncedRender);
+
+  });
+
   runBtn.addEventListener('click', render);
 
   [htmlInput, cssInput, jsInput].forEach(el => {
+
     el.addEventListener('keydown', e => {
+
       if(e.key === 'Tab'){
+
         e.preventDefault();
-        const s = el.selectionStart, en = el.selectionEnd;
-        el.value = el.value.slice(0,s) + '  ' + el.value.slice(en);
+
+        const s = el.selectionStart;
+        const en = el.selectionEnd;
+
+        el.value =
+          el.value.slice(0,s)
+          + '  '
+          + el.value.slice(en);
+
         el.selectionStart = el.selectionEnd = s + 2;
+
       }
+
     });
+
   });
 
   function applyTheme(theme){
+
     document.documentElement.setAttribute('data-theme', theme);
+
     themeBtn.textContent = theme;
+
     localStorage.setItem('pad-theme', theme);
+
   }
+
   themeBtn.addEventListener('click', () => {
-    const cur = document.documentElement.getAttribute('data-theme');
+
+    const cur =
+      document.documentElement.getAttribute('data-theme');
+
     applyTheme(cur === 'dark' ? 'light' : 'dark');
+
   });
-  applyTheme(localStorage.getItem('pad-theme') || 'dark');
+
+  applyTheme(
+    localStorage.getItem('pad-theme') || 'dark'
+  );
 
   const splitter = document.getElementById('splitter');
-  const editors   = document.querySelector('.editors');
-  const mainEl    = document.querySelector('main');
+  const editors = document.querySelector('.editors');
+  const mainEl = document.querySelector('main');
 
   function setSplit(pct){
+
     pct = Math.min(80, Math.max(20, pct));
-    document.documentElement.style.setProperty('--split', pct + '%');
+
+    document.documentElement.style.setProperty(
+      '--split',
+      pct + '%'
+    );
+
     localStorage.setItem('pad-split', pct);
+
   }
-  setSplit(parseFloat(localStorage.getItem('pad-split')) || 50);
+
+  setSplit(
+    parseFloat(localStorage.getItem('pad-split')) || 50
+  );
 
   function dragMove(clientX){
+
     const rect = mainEl.getBoundingClientRect();
-    setSplit(((clientX - rect.left) / rect.width) * 100);
+
+    setSplit(
+      ((clientX - rect.left) / rect.width) * 100
+    );
+
   }
+
   function startDrag(e){
+
     e.preventDefault();
+
     splitter.classList.add('dragging');
-    const move = ev => dragMove(ev.touches ? ev.touches[0].clientX : ev.clientX);
+
+    const move = ev => {
+
+      dragMove(
+        ev.touches
+          ? ev.touches[0].clientX
+          : ev.clientX
+      );
+
+    };
+
     const stop = () => {
+
       splitter.classList.remove('dragging');
+
       window.removeEventListener('mousemove', move);
       window.removeEventListener('mouseup', stop);
+
       window.removeEventListener('touchmove', move);
       window.removeEventListener('touchend', stop);
+
     };
+
     window.addEventListener('mousemove', move);
     window.addEventListener('mouseup', stop);
-    window.addEventListener('touchmove', move, {passive:false});
+
+    window.addEventListener(
+      'touchmove',
+      move,
+      {passive:false}
+    );
+
     window.addEventListener('touchend', stop);
+
   }
-  splitter.addEventListener('mousedown', startDrag);
-  splitter.addEventListener('touchstart', startDrag, {passive:false});
+
+  splitter.addEventListener(
+    'mousedown',
+    startDrag
+  );
+
+  splitter.addEventListener(
+    'touchstart',
+    startDrag,
+    {passive:false}
+  );
 
   render();
+
 </script>
+
 </body>
+
 </html>
