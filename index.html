@@ -1,78 +1,86 @@
 <!DOCTYPE html>
-
 <html lang="ru" data-theme="dark">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>pad — html / css / js</title>
-
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 
   :root[data-theme="dark"]{
-    --bg:#14161b; --panel:#1a1d24; --panel-alt:#20242d; --border:#2a2f3a;
-    --text:#d8dce3; --text-dim:#7d8494;
-    --amber:#f2b544; --blue:#6fb1fc; --green:#7fd99a;
-    --btn-bg:#20242d; --btn-hover:#282d38;
+    --bg:#0e1013; --paper:#15181d; --paper-alt:#1a1e25; --border:#262b33;
+    --grid:rgba(255,255,255,.035);
+    --text:#ccd1da; --text-dim:#6d7481;
+    --ink-html:#d99a44; --ink-css:#5b9bd9; --ink-js:#4fae8a;
+    --btn-bg:#191d24; --btn-hover:#20252d;
+    --shadow: 0 1px 0 rgba(0,0,0,.4);
   }
 
   :root[data-theme="light"]{
-    --bg:#f3f4f6; --panel:#ffffff; --panel-alt:#eef0f3; --border:#dbdfe4;
-    --text:#1c1f26; --text-dim:#6b7280;
-    --amber:#b9740a; --blue:#1c64c7; --green:#237a45;
-    --btn-bg:#ffffff; --btn-hover:#e9ebef;
+    --bg:#ece9e2; --paper:#fdfcf9; --paper-alt:#f4f2ec; --border:#dcd8cd;
+    --grid:rgba(60,50,30,.05);
+    --text:#25241f; --text-dim:#7a7568;
+    --ink-html:#a8641c; --ink-css:#2f6fae; --ink-js:#2c7d5c;
+    --btn-bg:#fdfcf9; --btn-hover:#efece3;
+    --shadow: 0 1px 0 rgba(0,0,0,.05);
   }
 
-  *{
-    box-sizing:border-box;
-  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; margin:0; }
 
-  html,body{
-    height:100%;
-    margin:0;
-  }
+  html{ scrollbar-width:none; -ms-overflow-style:none; }
+  html::-webkit-scrollbar{ display:none; }
 
   body{
-    background:var(--bg);
+    background:
+      linear-gradient(var(--grid) 1px, transparent 1px) 0 0 / 100% 26px,
+      var(--bg);
     color:var(--text);
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+    font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
     display:flex;
     flex-direction:column;
     -webkit-font-smoothing:antialiased;
+    font-size:13px;
   }
 
   header{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:10px 16px;
+    padding:12px 18px;
     border-bottom:1px solid var(--border);
-    background:var(--panel);
+    background:var(--paper);
     flex:0 0 auto;
     gap:12px;
   }
 
   .brand{
     display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:14px;
-    color:var(--text-dim);
+    align-items:baseline;
+    gap:9px;
   }
 
   .brand b{
     color:var(--text);
-    font-weight:500;
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:.2px;
   }
 
-  .dot{
-    width:7px;
-    height:7px;
+  .brand span{
+    color:var(--text-dim);
+    font-size:12px;
+  }
+
+  .pulse{
+    width:6px;
+    height:6px;
     border-radius:50%;
-    background:var(--amber);
+    background:var(--ink-html);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--ink-html) 18%, transparent);
+    flex:0 0 auto;
   }
 
   .controls{
@@ -83,14 +91,15 @@
 
   button, .theme-toggle{
     font-family:inherit;
-    font-size:12.5px;
+    font-size:12px;
     color:var(--text);
     background:var(--btn-bg);
     border:1px solid var(--border);
-    border-radius:6px;
-    padding:6px 12px;
+    border-radius:5px;
+    padding:6px 13px;
     cursor:pointer;
-    transition:background .12s ease;
+    box-shadow:var(--shadow);
+    transition:background .12s ease, border-color .12s ease;
   }
 
   button:hover, .theme-toggle:hover{
@@ -98,13 +107,31 @@
   }
 
   button:active{
-    transform:scale(.97);
+    transform:translateY(1px);
+    box-shadow:none;
+  }
+
+  button:focus-visible, .theme-toggle:focus-visible, textarea:focus-visible{
+    outline:none;
+    box-shadow:0 0 0 2px var(--paper), 0 0 0 4px var(--ink-css);
   }
 
   #run-btn{
-    color:var(--amber);
-    border-color:var(--amber);
+    color:var(--ink-html);
+    border-color:color-mix(in srgb, var(--ink-html) 55%, var(--border));
+    font-weight:500;
   }
+
+  .theme-toggle{
+    width:30px;
+    height:30px;
+    padding:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .theme-toggle svg{ width:15px; height:15px; }
 
   main{
     flex:1 1 auto;
@@ -122,29 +149,29 @@
   }
 
   .splitter{
-    flex:0 0 6px;
+    flex:0 0 10px;
     cursor:col-resize;
-    background:var(--panel);
+    background:var(--bg);
     border-left:1px solid var(--border);
     border-right:1px solid var(--border);
     position:relative;
   }
 
-  .splitter:hover,
-  .splitter.dragging{
-    background:var(--btn-hover);
+  .splitter:hover .grip,
+  .splitter.dragging .grip{
+    background:var(--text-dim);
   }
 
-  .splitter::after{
-    content:"";
+  .grip{
     position:absolute;
     left:50%;
     top:50%;
     transform:translate(-50%,-50%);
     width:2px;
-    height:20px;
+    height:22px;
     border-radius:1px;
     background:var(--border);
+    transition:background .12s ease;
   }
 
   .pane{
@@ -152,27 +179,56 @@
     flex-direction:column;
     min-height:0;
     border-bottom:1px solid var(--border);
+    border-left:3px solid var(--tab-color, transparent);
   }
 
-  .pane:last-child{
-    border-bottom:none;
-  }
+  .pane:last-child{ border-bottom:none; }
 
   .pane-label{
     display:flex;
     align-items:center;
-    gap:7px;
-    font-size:11.5px;
+    justify-content:space-between;
+    gap:8px;
+    font-size:11px;
     color:var(--text-dim);
-    padding:6px 12px;
-    background:var(--panel);
+    padding:7px 12px;
+    background:var(--paper);
     flex:0 0 auto;
     border-bottom:1px solid var(--border);
   }
 
-  .pane-label .dot{
-    width:6px;
-    height:6px;
+  .pane-label b{
+    color:var(--tab-color, var(--text));
+    font-weight:500;
+  }
+
+  .chevron{
+    display:none;
+    color:var(--text-dim);
+    flex:0 0 auto;
+    transition:transform .2s ease;
+  }
+
+  .editor-wrap{
+    display:flex;
+    flex:1 1 auto;
+    min-height:0;
+  }
+
+  .line-numbers{
+    flex:0 0 auto;
+    min-width:32px;
+    padding:11px 8px 11px 10px;
+    text-align:right;
+    color:var(--text-dim);
+    background:var(--paper-alt);
+    font-family:inherit;
+    font-size:13px;
+    line-height:1.55;
+    white-space:pre;
+    user-select:none;
+    overflow:hidden;
+    border-right:1px solid var(--border);
   }
 
   textarea{
@@ -180,14 +236,18 @@
     resize:none;
     border:none;
     outline:none;
-    background:var(--panel);
+    background:var(--paper);
     color:var(--text);
     font-family:inherit;
     font-size:13px;
-    line-height:1.5;
-    padding:10px 12px;
+    line-height:1.55;
+    padding:11px 14px 11px 10px;
     tab-size:2;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
   }
+
+  textarea::-webkit-scrollbar{ display:none; }
 
   .output-pane{
     display:flex;
@@ -195,6 +255,24 @@
     min-height:0;
     min-width:0;
     flex:1 1 auto;
+    border-left:3px solid transparent;
+  }
+
+  .output-pane .pane-label{
+    justify-content:space-between;
+  }
+
+  .output-pane.flash{
+    border-left-color:var(--ink-html);
+    transition:border-left-color .05s ease;
+  }
+  .output-pane{
+    transition:border-left-color .6s ease;
+  }
+
+  .output-hint{
+    color:var(--text-dim);
+    font-size:10.5px;
   }
 
   iframe{
@@ -205,41 +283,34 @@
   }
 
   @media (max-width:860px){
+    main{ flex-direction:column; }
+    .editors{ flex-basis:auto !important; grid-template-rows:none; }
+    .splitter{ display:none; }
 
-    main{
-      flex-direction:column;
+    .editors .pane-label{ cursor:pointer; }
+    .chevron{ display:block; }
+    .pane.collapsed .chevron{ transform:rotate(-90deg); }
+
+    .pane .editor-wrap{
+      height:180px;
+      transition:height .2s ease;
+    }
+    .pane.collapsed .editor-wrap{
+      height:0;
+      overflow:hidden;
     }
 
-    .editors{
-      flex-basis:auto !important;
-      grid-template-rows:none;
-    }
-
-    .splitter{
-      display:none;
-    }
-
-    .pane textarea{
-      height:130px;
-      flex:none;
-    }
-
-    .output-pane{
-      height:340px;
-    }
-
+    .output-pane{ height:340px; }
   }
 
 </style>
-
 </head>
-
 <body>
 
 <header>
 
   <div class="brand">
-    <span class="dot"></span>
+    <span class="pulse"></span>
     <b>pad</b>
     <span>html · css · js</span>
   </div>
@@ -249,7 +320,7 @@
     <button id="run-btn" title="Обновить вывод">run</button>
 
     <button class="theme-toggle" id="theme-toggle" title="Сменить тему">
-      dark
+      <svg id="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></svg>
     </button>
 
   </div>
@@ -260,85 +331,72 @@
 
   <div class="editors">
 
-    <div class="pane">
-
+    <div class="pane" data-key="html" style="--tab-color:var(--ink-html)">
       <div class="pane-label">
-        <span class="dot" style="background:var(--amber)"></span>
-        html
+        <b>html</b>
+        <svg class="chevron" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
       </div>
-
-      <textarea id="html-input" spellcheck="false"><div class="box">
+      <div class="editor-wrap">
+        <div class="line-numbers" id="html-gutter">1</div>
+        <textarea id="html-input" spellcheck="false"><div class="box">
 
   <h1>hello</h1>
 
   <p>paste your iframe embed here too</p>
 
 </div></textarea>
-
+      </div>
     </div>
 
-    <div class="pane">
-
+    <div class="pane" data-key="css" style="--tab-color:var(--ink-css)">
       <div class="pane-label">
-        <span class="dot" style="background:var(--blue)"></span>
-        css
+        <b>css</b>
+        <svg class="chevron" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
       </div>
-
-      <textarea id="css-input" spellcheck="false">body{ font-family: sans-serif; }
+      <div class="editor-wrap">
+        <div class="line-numbers" id="css-gutter">1</div>
+        <textarea id="css-input" spellcheck="false">body{ font-family: sans-serif; }
 
 .box{ padding: 24px; }
 
 h1{ color: #6fb1fc; }</textarea>
-
-    </div>
-
-    <div class="pane">
-
-      <div class="pane-label">
-        <span class="dot" style="background:var(--green)"></span>
-        js
       </div>
+    </div>
 
-      <textarea id="js-input" spellcheck="false">console.log('ready');</textarea>
-
+    <div class="pane" data-key="js" style="--tab-color:var(--ink-js)">
+      <div class="pane-label">
+        <b>js</b>
+        <svg class="chevron" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4.5 6 7.5 9 4.5"/></svg>
+      </div>
+      <div class="editor-wrap">
+        <div class="line-numbers" id="js-gutter">1</div>
+        <textarea id="js-input" spellcheck="false">console.log('ready');</textarea>
+      </div>
     </div>
 
   </div>
 
-  <div
-    class="splitter"
-    id="splitter"
-    title="Потянуть, чтобы изменить ширину">
+  <div class="splitter" id="splitter" title="Потянуть, чтобы изменить ширину">
+    <div class="grip"></div>
   </div>
 
-  <div class="output-pane">
+  <div class="output-pane" id="output-pane">
 
     <div class="pane-label">
-      <span class="dot" style="background:var(--text-dim)"></span>
-      output
+      <b>output</b>
+      <span class="output-hint" id="output-hint">live</span>
     </div>
 
     <!--
-      Ограничиваем разрешения встроенного содержимого.
-
-      Разрешено:
-      - autoplay
-      - encrypted-media
-      - fullscreen
-      - picture-in-picture
-
-      Запрещено:
-      - camera
-      - microphone
-      - local-network
-      - loopback-network
+      Превью изолировано максимально жёстко: никаких разрешений
+      (autoplay, fullscreen, камера, микрофон и т.д.) не запрашивается
+      и не выдаётся. sandbox без allow-same-origin — контент работает
+      в отдельном, ничем не привилегированном origin.
     -->
-
     <iframe
       id="output"
       title="live preview"
-      allow="autoplay; encrypted-media; fullscreen; picture-in-picture; camera 'none'; microphone 'none'; local-network 'none'; loopback-network 'none'"
-      allowfullscreen>
+      sandbox="allow-scripts">
     </iframe>
 
   </div>
@@ -352,17 +410,28 @@ h1{ color: #6fb1fc; }</textarea>
   const jsInput   = document.getElementById('js-input');
 
   const output = document.getElementById('output');
+  const outputPane = document.getElementById('output-pane');
 
   const runBtn = document.getElementById('run-btn');
   const themeBtn = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
 
   const openTag = '<' + 'scr' + 'ipt>';
   const closeTag = '<' + '/scr' + 'ipt>';
+
+  function flashOutput(){
+    outputPane.classList.add('flash');
+    requestAnimationFrame(() => {
+      setTimeout(() => outputPane.classList.remove('flash'), 60);
+    });
+  }
 
   function render(){
 
     const doc =
       '<style>body{margin:0;padding:12px;font-family:sans-serif;}'
+      + '*::-webkit-scrollbar{display:none;}'
+      + 'html{scrollbar-width:none;-ms-overflow-style:none;}'
       + cssInput.value
       + '</style>'
       + htmlInput.value
@@ -371,161 +440,127 @@ h1{ color: #6fb1fc; }</textarea>
       + closeTag;
 
     output.srcdoc = doc;
+    flashOutput();
 
   }
 
   let t;
 
   function debouncedRender(){
-
     clearTimeout(t);
-
     t = setTimeout(render, 350);
-
   }
 
   [htmlInput, cssInput, jsInput].forEach(el => {
-
     el.addEventListener('input', debouncedRender);
-
   });
 
   runBtn.addEventListener('click', render);
 
   [htmlInput, cssInput, jsInput].forEach(el => {
-
     el.addEventListener('keydown', e => {
-
       if(e.key === 'Tab'){
-
         e.preventDefault();
-
         const s = el.selectionStart;
         const en = el.selectionEnd;
-
-        el.value =
-          el.value.slice(0,s)
-          + '  '
-          + el.value.slice(en);
-
+        el.value = el.value.slice(0,s) + '  ' + el.value.slice(en);
         el.selectionStart = el.selectionEnd = s + 2;
-
+        el.dispatchEvent(new Event('input'));
       }
-
     });
-
   });
 
+  function attachGutter(textarea, gutter){
+    function update(){
+      const lines = textarea.value.split('\n').length;
+      let out = '';
+      for(let i = 1; i <= lines; i++) out += i + '\n';
+      gutter.textContent = out;
+    }
+    function syncScroll(){
+      gutter.scrollTop = textarea.scrollTop;
+    }
+    textarea.addEventListener('input', update);
+    textarea.addEventListener('scroll', syncScroll);
+    update();
+  }
+
+  attachGutter(htmlInput, document.getElementById('html-gutter'));
+  attachGutter(cssInput, document.getElementById('css-gutter'));
+  attachGutter(jsInput, document.getElementById('js-gutter'));
+
+  const SUN = 'M12 4.5v-2M12 21.5v-2M4.5 12h-2M21.5 12h-2M6.3 6.3 4.9 4.9M19.1 19.1l-1.4-1.4M6.3 17.7l-1.4 1.4M19.1 4.9l-1.4 1.4M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z';
+  const MOON = 'M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z';
+
   function applyTheme(theme){
-
     document.documentElement.setAttribute('data-theme', theme);
-
-    themeBtn.textContent = theme;
-
+    themeIcon.innerHTML = '<path d="' + (theme === 'dark' ? MOON : SUN) + '"/>';
+    themeBtn.title = theme === 'dark' ? 'Светлая тема' : 'Тёмная тема';
     localStorage.setItem('pad-theme', theme);
-
   }
 
   themeBtn.addEventListener('click', () => {
-
-    const cur =
-      document.documentElement.getAttribute('data-theme');
-
+    const cur = document.documentElement.getAttribute('data-theme');
     applyTheme(cur === 'dark' ? 'light' : 'dark');
-
   });
 
-  applyTheme(
-    localStorage.getItem('pad-theme') || 'dark'
-  );
+  applyTheme(localStorage.getItem('pad-theme') || 'dark');
 
   const splitter = document.getElementById('splitter');
-  const editors = document.querySelector('.editors');
   const mainEl = document.querySelector('main');
 
   function setSplit(pct){
-
     pct = Math.min(80, Math.max(20, pct));
-
-    document.documentElement.style.setProperty(
-      '--split',
-      pct + '%'
-    );
-
+    document.documentElement.style.setProperty('--split', pct + '%');
     localStorage.setItem('pad-split', pct);
-
   }
 
-  setSplit(
-    parseFloat(localStorage.getItem('pad-split')) || 50
-  );
+  setSplit(parseFloat(localStorage.getItem('pad-split')) || 50);
 
   function dragMove(clientX){
-
     const rect = mainEl.getBoundingClientRect();
-
-    setSplit(
-      ((clientX - rect.left) / rect.width) * 100
-    );
-
+    setSplit(((clientX - rect.left) / rect.width) * 100);
   }
 
   function startDrag(e){
-
     e.preventDefault();
-
     splitter.classList.add('dragging');
 
     const move = ev => {
-
-      dragMove(
-        ev.touches
-          ? ev.touches[0].clientX
-          : ev.clientX
-      );
-
+      dragMove(ev.touches ? ev.touches[0].clientX : ev.clientX);
     };
 
     const stop = () => {
-
       splitter.classList.remove('dragging');
-
       window.removeEventListener('mousemove', move);
       window.removeEventListener('mouseup', stop);
-
       window.removeEventListener('touchmove', move);
       window.removeEventListener('touchend', stop);
-
     };
 
     window.addEventListener('mousemove', move);
     window.addEventListener('mouseup', stop);
-
-    window.addEventListener(
-      'touchmove',
-      move,
-      {passive:false}
-    );
-
+    window.addEventListener('touchmove', move, {passive:false});
     window.addEventListener('touchend', stop);
-
   }
 
-  splitter.addEventListener(
-    'mousedown',
-    startDrag
-  );
+  splitter.addEventListener('mousedown', startDrag);
+  splitter.addEventListener('touchstart', startDrag, {passive:false});
 
-  splitter.addEventListener(
-    'touchstart',
-    startDrag,
-    {passive:false}
-  );
+  document.querySelectorAll('.editors .pane[data-key] > .pane-label').forEach(label => {
+    label.addEventListener('click', () => {
+      label.closest('.pane').classList.toggle('collapsed');
+    });
+  });
+
+  if(window.matchMedia('(max-width:860px)').matches){
+    document.querySelector('.pane[data-key="css"]').classList.add('collapsed');
+    document.querySelector('.pane[data-key="js"]').classList.add('collapsed');
+  }
 
   render();
 
 </script>
 
 </body>
-
 </html>
